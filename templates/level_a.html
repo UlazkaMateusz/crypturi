@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chapter {{ chapter }} - Level {{ level }}</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f1f1f1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 4rem;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .countdown {
+      font-size: 3rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .next-btn {
+      display: none;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      background-color: #1f1f1f;
+      color: #f1f1f1;
+      border: 2px solid #f1f1f1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .next-btn:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="level-title">Level {{ level }}</h1>
+  <div id="countdown" class="countdown"></div>
+  <a href="{{ next_level_url }}"><button id="next-btn" class="next-btn">Next Level</button></a>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const nextBtn = document.getElementById('next-btn');
+
+    setTimeout(() => {
+      countdownEl.style.display = 'block';
+
+      let count = 5;
+      countdownEl.textContent = count;
+
+      const interval = setInterval(() => {
+        count--;
+        if (count >= 0) {
+          countdownEl.textContent = count;
+        }
+
+        if (count === 0) {
+          clearInterval(interval);
+          countdownEl.style.display = 'none';
+          nextBtn.style.display = 'inline-block';
+        }
+      }, 1000);
+    }, 2000); // delay to match heading fade-in
+  </script>
+</body>
+</html>
