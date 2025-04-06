@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chapter C
+{% endblock title %}
+
+{% block style %}
+<style>
+    .countdown {
+        font-size: 3rem;
+        margin-top: 1rem;
+        display: none;
+    }
+
+    .next-btn {
+        display: none;
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        background-color: #1f1f1f;
+        color: #f1f1f1;
+        border: 2px solid #f1f1f1;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Chapter C</h1>
+<h3>This time it's only one level</h3>
+
+<form action="/chapter/c/a7f6f851-ae3a-4d47-8562-2b0e8fdb14a0" method="POST">
+    <label for="value">
+        <input id="value" name="value" placeholder="Secret password" required type="password"/>
+    </label>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    var nick = 'Anhelajna';
+    var x = nick.length / 2;
+
+    function spr() {
+        var witaj_kolego_moze_chcesz_mi_posiedziec_co_oznaca_ta_fraza = 'rebuny w kraju';
+        var user_input = document.getElementById('value').value;
+
+        if (user_input === witaj_kolego_moze_chcesz_mi_posiedziec_co_oznaca_ta_fraza.substring(x + 6, x + 7) + witaj_kolego_moze_chcesz_mi_posiedziec_co_oznaca_ta_fraza.substring(x * (x * 8 * (-x + x)) + 1, 2) + witaj_kolego_moze_chcesz_mi_posiedziec_co_oznaca_ta_fraza.substring(x * 2 + 2, x * 2 + 4).split("").reverse().join("")) {
+            alert('NICE!');
+            return true;
+        } else {
+            alert('Incorrect password...');
+            return false;
+        }
+    }
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        // Prevent default form submission
+        e.preventDefault();
+
+        // Run validation through spr function
+        if (spr()) {
+            // If validation passes, send request to the backend
+            this.submit(); // Submit the form programmatically
+        }
+    });
+</script>
+{% endblock body %}

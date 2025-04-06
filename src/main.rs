@@ -1,29 +1,31 @@
-use axum::{
-    Router,
-    extract::{Path, State},
-    response::Html,
-    routing::get,
-};
-use std::{net::SocketAddr, sync::Arc};
-use tera::{Context, Tera};
+mod app_state;
+mod chapter_a;
+mod chapter_b;
+mod welcome;
+mod chapter_c;
 
-#[derive(Clone)]
-struct AppState {
-    templates: Arc<Tera>,
-}
+use crate::app_state::AppState;
+use crate::chapter_a::RegisterA;
+use crate::chapter_b::RegisterB;
+use crate::chapter_c::RegisterC;
+use crate::welcome::RegisterWelcome;
+use axum::Router;
+use std::sync::Arc;
+use tera::Tera;
+use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {
     // Load templates
     let tera = Tera::new("templates/**/*").expect("Failed to initialize Tera");
-    let state = AppState {
-        templates: Arc::new(tera),
-    };
+    let state = AppState::new(Arc::new(Mutex::new(tera)));
 
     // Build router
     let app = Router::new()
-        .route("/", get(index))
-        .route("/chapter/a/level/{level}", get(chapter_a))
+        .register_welcome()
+        .register_chapter_a()
+        .register_chapter_b()
+        .register_chapter_c()
         .with_state(state);
 
     // Run server
@@ -31,28 +33,4 @@ async fn main() {
     let listener = tokio::net::TcpListener::bind(binds_str).await.unwrap();
     println!("Server running at http://{}", binds_str);
     axum::serve(listener, app).await.unwrap();
-}
-
-// Handler
-async fn index(State(state): State<AppState>) -> Html<String> {
-    let mut context = Context::new();
-    context.insert("title", "Welcome Page");
-    context.insert("heading", "Hello from Axum!");
-    context.insert("content", "This HTML was rendered using Tera templates.");
-
-    let rendered = state.templates.render("level_a.html", &context).unwrap();
-
-    Html(rendered)
-}
-
-// Handler
-async fn chapter_a(State(state): State<AppState>, Path(level): Path<i32>) -> Html<String> {
-    let mut context = Context::new();
-    context.insert("chapter", "A");
-    context.insert("level", &level.to_string());
-    context.insert("next_level_url", &format!("/chapter/a/level/{}", level + 1));
-
-    let rendered = state.templates.render("level_a.html", &context).unwrap();
-
-    Html(rendered)
 }

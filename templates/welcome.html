@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Welcome to CryptUri
+{% endblock title %}
+
+{% block style %}
+<style>
+    .next-btn {
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        background-color: #1f1f1f;
+        color: #f1f1f1;
+        border: 2px solid #f1f1f1;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+<h1 id="level-title">Welcome to CryptUri</h1>
+<h3>You will face multiple chapters. You have to find smart solution or create script to solve chapter</h3>
+<a href="/chapter/a/level/1"><button id="" class="next-btn">Have fun with chapter A</button></a>
+
+<script>
+    const countdownEl = document.getElementById('countdown');
+    const nextBtn = document.getElementById('next-btn');
+
+    setTimeout(() => {
+        countdownEl.style.display = 'block';
+
+        let count = 5;
+        countdownEl.textContent = count;
+
+        const interval = setInterval(() => {
+            count--;
+            if (count >= 0) {
+                countdownEl.textContent = count;
+            }
+
+            if (count === 0) {
+                clearInterval(interval);
+                countdownEl.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+            }
+        }, 1000);
+    }, 2000); // delay to match heading fade-in
+</script>
+{% endblock body %}

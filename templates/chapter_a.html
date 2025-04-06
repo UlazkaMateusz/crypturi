@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chapter A - Level {{ level }}
+{% endblock title %}
+
+{% block style %}
+<style>
+    .countdown {
+        font-size: 3rem;
+        margin-top: 1rem;
+        display: none;
+    }
+
+    .next-btn {
+        display: none;
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        background-color: #1f1f1f;
+        color: #f1f1f1;
+        border: 2px solid #f1f1f1;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Level {{ level }}</h1>
+
+{% if level == 1 %}
+<h3>This chapter consists of 100 levels</h3>
+{% elif level == 2 %}
+<h3>Only 98 to go :)</h3>
+{% elif level == 3 %}
+<h3>You are still here?</h3>
+{% elif level == 4 %}
+<h3>Please stop it...</h3>
+{% elif level == 5 %}
+<h3>You are stubborn one</h3>
+{% elif level == 6 %}
+<h3>Reja will scream at you for this</h3>
+{% elif level == 7 %}
+<h3>Just look around...</h3>
+{% elif level == 7 %}
+<h3>My throat is sore. I have to go :)</h3>
+{% elif level == 69 %}
+<h3>Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice
+    Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice
+    Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice Nice
+    Nice </h3>
+<img alt="Nice" src="https://i.imgur.com/WvifVmY.gif"/>
+{% elif level == 99 %}
+<h3>Only one more!</h3>
+{% elif level == 100 %}
+<h3>You are the winner</h3>
+<img alt="You are the winner" src="https://media.tenor.com/arqlNu8gyJYAAAAM/cat-cat-jumping.gif"/>
+{% elif level > 100 %}
+<h3>You overshot :)</h3>
+{% elif level < 1 %}
+<h3>Wrong way!!!</h3>
+{% elif level == -69 %}
+<h3>BAKA</h3>
+{% endif %}
+
+<div class="countdown" id="countdown"></div>
+<a href="{{ next_level_url }}">
+    <button class="next-btn" id="next-btn">
+        {% if special_button_text %}
+        {{ special_button_text }}
+        {% else %}
+        Next Level
+        {% endif %}
+    </button>
+</a>
+
+<script>
+    const countdownEl = document.getElementById('countdown');
+    const nextBtn = document.getElementById('next-btn');
+
+    setTimeout(() => {
+        countdownEl.style.display = 'block';
+
+        let count = 5;
+        countdownEl.textContent = count;
+
+        const interval = setInterval(() => {
+            count--;
+            if (count >= 0) {
+                countdownEl.textContent = count;
+            }
+
+            if (count === 0) {
+                clearInterval(interval);
+                countdownEl.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+            }
+        }, 1000);
+    }, 2000); // delay to match heading fade-in
+</script>
+{% endblock body %}
