@@ -5,38 +5,21 @@ Chapter C
 {% endblock title %}
 
 {% block style %}
-<style>
-    .countdown {
-        font-size: 3rem;
-        margin-top: 1rem;
-        display: none;
-    }
-
-    .next-btn {
-        display: none;
-        margin-top: 2rem;
-        padding: 1rem 2rem;
-        font-size: 1.5rem;
-        background-color: #1f1f1f;
-        color: #f1f1f1;
-        border: 2px solid #f1f1f1;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-</style>
 {% endblock style %}
 
 {% block body %}
 <h1 id="level-title">Chapter C</h1>
 <h3>This time it's only one level</h3>
+<img alt="Chapter C" src="https://media.tenor.com/dzH7hcpunLgAAAAM/hmph-zach-galifianakis.gif"/>
 
-<form action="/chapter/c/a7f6f851-ae3a-4d47-8562-2b0e8fdb14a0" method="POST">
-    <label for="value">
-        <input id="value" name="value" placeholder="Secret password" required type="password"/>
-    </label>
-    <button type="submit">Submit</button>
-</form>
+<div style="margin-top: 2rem;">
+    <form action="/chapter/c/a7f6f851-ae3a-4d47-8562-2b0e8fdb14a0" method="POST">
+        <label for="value">
+            <input id="value" name="value" placeholder="Secret password" required type="password"/>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 
 <script>
     var nick = 'Anhelajna';

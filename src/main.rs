@@ -3,11 +3,13 @@ mod chapter_a;
 mod chapter_b;
 mod welcome;
 mod chapter_c;
+mod chapter_d;
 
 use crate::app_state::AppState;
 use crate::chapter_a::RegisterA;
 use crate::chapter_b::RegisterB;
 use crate::chapter_c::RegisterC;
+use crate::chapter_d::RegisterD;
 use crate::welcome::RegisterWelcome;
 use axum::Router;
 use std::sync::Arc;
@@ -26,6 +28,7 @@ async fn main() {
         .register_chapter_a()
         .register_chapter_b()
         .register_chapter_c()
+        .register_chapter_d()
         .with_state(state);
 
     // Run server

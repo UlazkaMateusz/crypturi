@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chapter D
+{% endblock title %}
+
+{% block style %}
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Chapter D</h1>
+<h3>What password should I enter here? Is it the password to your heart? Nah!</h3>
+<img alt="Chapter D" src="https://media.tenor.com/hnb4XHRF06EAAAAM/show-me-the-password.gif"/>
+
+<div style="margin-top: 2rem;">
+    <form action="/chapter/d/wordle" method="POST">
+        <label for="value">
+            <input id="value" name="value" placeholder="Solution" required type="password"/>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    // js get param from url named ?failed
+    var failed = window.location.search.split('failed=')[1];
+    if (failed) {
+        alert('Try again!');
+    }
+</script>
+{% endblock body %}
