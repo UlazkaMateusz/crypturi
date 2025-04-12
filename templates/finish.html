@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}
+Congratulations!
+{% endblock title %}
+
+{% block style %}
+<style>
+    .carousel-container {
+        position: relative;
+        width: 500px;
+        text-align: center;
+    }
+
+    .image-container {
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .image-container img {
+        width: 100%;
+        transition: opacity 0.5s ease-in-out;
+        display: none; /* Hide all images initially */
+    }
+
+    .image-container img.active {
+        display: block; /* Show the active image */
+    }
+
+    .controls {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    button {
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        background-color: #1f1f1f;
+        color: #f1f1f1;
+        border: 2px solid #f1f1f1;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Congratulations!</h1>
+<h3>You've completed the game!</h3>
+
+
+<div class="carousel-container">
+    <div class="image-container">
+        <!-- Images corresponding to 1.png to 5.png -->
+        <img alt="1.png" class="active" data-text="/res/1.txt" src="/res/1.png">
+        <img alt="2.png" data-text="/res/2.txt" src="/res/2.png">
+        <img alt="3.png" data-text="/res/3.txt" src="/res/3.png">
+        <img alt="4.png" data-text="/res/4.txt" src="/res/4.png">
+        <img alt="5.png" data-text="/res/5.txt" src="/res/5.png">
+    </div>
+
+    <div class="controls">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+    </div>
+
+    <button id="copy-btn">Copy Text</button>
+</div>
+
+<script>
+    // JavaScript for Carousel and Clipboard Logic
+
+    // Get carousel elements
+    const images = document.querySelectorAll('.image-container img');
+    const prevButton = document.getElementById('prev-btn');
+    const nextButton = document.getElementById('next-btn');
+    const copyButton = document.getElementById('copy-btn');
+
+    let currentImageIndex = 0;
+
+    // Function to show the current image
+    function updateCarousel() {
+        images.forEach((img, index) => {
+            img.classList.toggle('active', index === currentImageIndex);
+        });
+    }
+
+    // Navigate to the previous image
+    prevButton.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        updateCarousel();
+    });
+
+    // Navigate to the next image
+    nextButton.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        updateCarousel();
+    });
+
+    // Copy text corresponding to the current image
+    copyButton.addEventListener('click', async () => {
+        const activeImage = images[currentImageIndex];
+        const textFilePath = activeImage.getAttribute('data-text');
+
+        try {
+            const response = await fetch(textFilePath);
+
+            if (response.ok) {
+                const textContent = await response.text();
+                await navigator.clipboard.writeText(textContent);
+                alert('Text copied to clipboard!');
+            } else {
+                alert('Failed to fetch text file. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error copying text:', error);
+            alert('An error occurred while fetching the file.');
+        }
+    });
+
+    // Initialize the carousel
+    updateCarousel();
+</script>
+{% endblock body %}

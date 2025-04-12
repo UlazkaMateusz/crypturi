@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chapter E
+{% endblock title %}
+
+{% block style %}
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Chapter E</h1>
+<h3>What was the password on Anhelajna birthday?</h3>
+<img alt="Chapter E" src="https://y.yarn.co/4f284241-f477-4065-9c1e-1acffd17f462_text.gif"/>
+
+<div style="margin-top: 2rem;">
+    <form action="/chapter/e/birthday_wordle" method="POST">
+        <label for="value">
+            <input id="value" name="value" placeholder="Solution" required type="password"/>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    // js get param from url named ?failed
+    var failed = window.location.search.split('failed=')[1];
+    if (failed) {
+        alert('Try again!');
+    }
+</script>
+{% endblock body %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chapter F
+{% endblock title %}
+
+{% block style %}
+<style>
+    .loader {
+        width: 20px;
+        height: 20px;
+        border: 5px solid #FFF;
+        border-bottom-color: #FF3D00;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<h1 id="level-title">Chapter F</h1>
+<h3>Cmon attack me! I have a lot of time!</h3>
+<img alt="Chapter F" src="https://media.tenor.com/xayHMPdWnmIAAAAM/cat-attack-attitude.gif"/>
+
+<div style="margin-top: 2rem;">
+    <form>
+
+        <label for="value">
+            <input id="value" name="value" placeholder="6 number pin number" required
+            />
+        </label>
+        <span>
+            <button type="submit">Submit</button>
+            <span class="loader" style="display: none"></span>
+        </span>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector("form");
+        const input = document.querySelector("#value");
+        const submitButton = form.querySelector("button");
+        const spinner = document.querySelector(".loader");
+
+        // Create a loading spinner element
+        form.appendChild(spinner);
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const value = input.value.trim();
+            if (value === "") {
+                alert("Value cannot be empty!");
+                return;
+            }
+
+            spinner.style.display = "inline-block"; // Show spinner
+            submitButton.disabled = true;   // Disable the submit button
+
+            try {
+                const response = await fetch('/chapter/f/timing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(value)
+                });
+
+                if (response.ok) {
+                    window.location.href = await response.json();
+                }
+            } catch (error) {
+                console.error("Request failed:", error);
+                alert("Network error. Please check your connection.");
+            } finally {
+                spinner.style.display = "none"; // Hide spinner
+                submitButton.disabled = false;  // Re-enable the submit button
+            }
+        });
+    });
+</script>
+{% endblock body %}
